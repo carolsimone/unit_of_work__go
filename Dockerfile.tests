@@ -1,0 +1,15 @@
+# Stage 1: Build the application
+FROM golang:1.23.4 AS builder
+
+WORKDIR /app
+
+COPY ./src ./src/
+RUN cd src/ && go mod download
+
+# CGO_ENABLED=1 needed if you want to enable C bindings
+RUN cd src/ && CGO_ENABLED=1 go build -o carnival .
+
+# Stage 2: Test Stage (Optional)
+FROM golang:1.23.4 AS tester
+WORKDIR /app
+COPY --from=builder /app .
