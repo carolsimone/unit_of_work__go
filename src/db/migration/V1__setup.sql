@@ -1,0 +1,15 @@
+CREATE TABLE IF NOT EXISTS scheduler_status (
+    id UUID PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    state VARCHAR(50) NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS k8s_deployment_status (
+    id UUID PRIMARY KEY,
+    scheduler_id UUID NOT NULL REFERENCES scheduler_status(id),
+    state VARCHAR(50) NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
+);
